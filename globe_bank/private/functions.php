@@ -58,5 +58,19 @@ function display_errors($errors=array()) {
   return $output;
 }
 
+function get_and_clear_session_message() {
+  if(isset($_SESSION['status_msg']) && $_SESSION['status_msg'] != '' ) {
+    $msg = $_SESSION['status_msg'];
+    unset($_SESSION['status_msg']);
+    return $msg;
+  }
+}
+
+function display_session_message() {
+  $msg = get_and_clear_session_message();
+  if(!is_blank($msg)) {
+    return '<div id="message">' . h($msg) . '</div>';
+  }
+}
 
 ?>

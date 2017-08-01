@@ -13,6 +13,7 @@ if(is_post_request()) {
 
   $result = insert_page($page);
   if($result === true) {
+    $_SESSION['status_msg'] = 'The page: ' . h($page['menu_name']) . ' was successfully created.';
     $new_id = mysqli_insert_id($db);
     redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
   } else {

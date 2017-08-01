@@ -308,4 +308,65 @@
     return $result; 
   }
 
+  // Accounts
+  function find_all_accounts() {
+    global $db;
+
+    $sql  = "SELECT * FROM admins ";
+    $sql .= "ORDER BY username ASC";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    return $result;
+  }
+
+  function find_account_by_username_and_password($username, $password) {
+    global $db;
+
+    $sql  = "SELECT * FROM admins ";
+    $sql .= "WHERE username='" . db_escape($db, $username) . "' ";
+    $sql .= "AND hashed_password='" . db_escape($db, $password) . "' ";
+    $sql .= "LIMIT 1";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $account = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $account;
+  }
+
+  function validate_account($account) {
+    $errors = [];
+
+    // first_name
+    if(is_blank($account['first_name'])) {
+      $errors[] = "First name cannot be blank.";
+    } elseif(!has_length($account['first_name'], ['min' => 2, 'max' => 255])) {
+      $errors[] = "First name must be between 2 and 255 characters.";
+    }
+
+    // last_name
+    if(is_blank($account['last_name'])) {
+      $errors[] = "Last name cannot be blank.";
+    } elseif(!has_length($account['last_name'], ['min' => 2, 'max' => 255])) {
+      $errors[] = "Last name must be between 2 and 255 characters.";
+    }
+
+    $current_id = $account['id'] ?? '0';
+    if(!has_unique_username($account['username'], $current_id)) {
+      $errors[] = "Username already in use.";
+    } elseif(is_blank($account['username'])) {
+      $errors[] = "Username cannot be blank.";
+    } elseif(!has_length($account['username'], ['min' => 2, 'max' => 255])) {
+      $errors[] = "Username must be between 2 and 255 characters.";
+    }
+
+    $email_test = "/[a-zA-Z0-9_-.+]+@[a-zA-Z0-9-]+.[a-zA-Z]+/";
+
+    if (!((bool)preg_match($email_test, $account['email'])))
+
+
+
+    
+
+    return $errors;
+  }
 ?>
