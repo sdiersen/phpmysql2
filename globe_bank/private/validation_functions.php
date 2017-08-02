@@ -122,7 +122,6 @@
     $admin_set = mysqli_query($db, $sql);
     $admin_count = mysqli_num_rows($admin_set);
     mysqli_free_result($admin_set);
-
     return $admin_count === 0;
   }
 

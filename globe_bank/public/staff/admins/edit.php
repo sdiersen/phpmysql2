@@ -10,13 +10,14 @@
 
 	if(is_post_request()) {
 		$account = [];
+		$account['id'] = $id;
 		$account['first_name'] = $_POST['first_name'] ?? '';
 		$account['last_name'] = $_POST['last_name'] ?? '';
 		$account['email'] = $_POST['email'] ?? '';
 		$account['username'] = $_POST['username'] ?? '';
-		$account['password'] = $_POST['password'] ?? '';
+		$account['hashed_password'] = $_POST['hashed_password'] ?? '';
 
-		$result = update_account($account);
+		$result = update_admin($account);
 		if($result === true) {
 			$_SESSION['status_msg'] = 'Account updated successfully';
 			redirect_to(url_for('/staff/admins/show.php?id=' . $id));
@@ -24,7 +25,7 @@
 			$errors = $result;
 		}
 	} else {
-		$account = find_account_by_id($id);
+		$account = find_admin_by_id($id);
 	}
 	
 	$page_title = 'Admin - Edit';
@@ -59,7 +60,7 @@
 			</dl>
 			<dl>
 				<dt>Password: </dt>
-				<dd><input type="password" name="password" value="<?php echo h($account['password']); ?>" /></dd>
+				<dd><input type="password" name="hashed_password" value="<?php echo h($account['hashed_password']); ?>" /></dd>
 			</dl>
 			<div id="operations">
 				<input type="submit" value="Edit Account" />

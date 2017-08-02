@@ -419,7 +419,7 @@
     $sql .= "last_name='" . db_escape($db,$admin['last_name']) . "', ";
     $sql .= "email='" . db_escape($db,$admin['email']) . "', ";
     $sql .= "username='" . db_escape($db,$admin['username']) . "', ";
-    $sql .= "hashed_password='" . db_escape($db,$admin['hashed_password']) . "', ";
+    $sql .= "hashed_password='" . db_escape($db,$admin['hashed_password']) . "' ";
     $sql .= "WHERE id='" . db_escape($db, $admin['id']) . "' ";
     $sql .= "LIMIT 1";
 
