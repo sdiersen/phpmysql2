@@ -308,8 +308,8 @@
     return $result; 
   }
 
-  // Accounts
-  function find_all_accounts() {
+  // Admins
+  function find_all_admins() {
     global $db;
 
     $sql  = "SELECT * FROM admins ";
@@ -319,7 +319,7 @@
     return $result;
   }
 
-  function find_account_by_username_and_password($username, $password) {
+  function find_admin_by_username_and_password($username, $password) {
     global $db;
 
     $sql  = "SELECT * FROM admins ";
@@ -333,40 +333,125 @@
     return $account;
   }
 
-  function validate_account($account) {
+  function find_admin_by_id($id) {
+    global $db;
+
+    $sql  = "SELECT * FROM admins ";
+    $sql .= "WHERE id='" . db_escape($db,$id) . "' ";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+    $admin = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $admin;
+  }
+
+  function validate_admin($admin) {
     $errors = [];
 
     // first_name
-    if(is_blank($account['first_name'])) {
+    if(is_blank($admin['first_name'])) {
       $errors[] = "First name cannot be blank.";
-    } elseif(!has_length($account['first_name'], ['min' => 2, 'max' => 255])) {
+    } elseif(!has_length($admin['first_name'], ['min' => 2, 'max' => 255])) {
       $errors[] = "First name must be between 2 and 255 characters.";
     }
 
     // last_name
-    if(is_blank($account['last_name'])) {
+    if(is_blank($admin['last_name'])) {
       $errors[] = "Last name cannot be blank.";
-    } elseif(!has_length($account['last_name'], ['min' => 2, 'max' => 255])) {
+    } elseif(!has_length($admin['last_name'], ['min' => 2, 'max' => 255])) {
       $errors[] = "Last name must be between 2 and 255 characters.";
     }
 
-    $current_id = $account['id'] ?? '0';
-    if(!has_unique_username($account['username'], $current_id)) {
+    $current_id = $admin['id'] ?? '0';
+    if(!has_unique_username($admin['username'], $current_id)) {
       $errors[] = "Username already in use.";
-    } elseif(is_blank($account['username'])) {
+    } elseif(is_blank($admin['username'])) {
       $errors[] = "Username cannot be blank.";
-    } elseif(!has_length($account['username'], ['min' => 2, 'max' => 255])) {
+    } elseif(!has_length($admin['username'], ['min' => 2, 'max' => 255])) {
       $errors[] = "Username must be between 2 and 255 characters.";
     }
 
-    $email_test = "/[a-zA-Z0-9_-.+]+@[a-zA-Z0-9-]+.[a-zA-Z]+/";
+    $email_test = "/[a-zA-Z0-9_\-.+]+@[a-zA-Z0-9-]+.[a-zA-Z]+/";
 
-    if (!((bool)preg_match($email_test, $account['email'])))
-
-
-
-    
-
+    if (!((bool)preg_match($email_test, $admin['email']))) {
+      $errors[] = "invalid email address";
+    }
     return $errors;
+  }
+
+  function insert_admin($admin) {
+    global $db;
+
+    $errors = validate_admin($admin);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    $sql  = "INSERT INTO admins ";
+    $sql .= "(first_name, last_name, email, username, hashed_password) ";
+    $sql .= "VALUES (";
+    $sql .= "'" . db_escape($db,$admin['first_name']) . "',";
+    $sql .= "'" . db_escape($db,$admin['last_name']) . "',";
+    $sql .= "'" . db_escape($db,$admin['email']) . "',";
+    $sql .= "'" . db_escape($db,$admin['username']) . "',";
+    $sql .= "'" . db_escape($db,$admin['hashed_password']) . "'";
+    $sql .= ")";
+    $result = mysqli_query($db, $sql);
+    if($result) {
+      return true;
+    } else {
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }
+
+  function update_admin($admin) {
+    global $db;
+
+    $errors = validate_admin($admin);
+    if(!empty($errors)) {
+      return $errors;
+    }
+
+    $sql  = "UPDATE admins SET ";
+    $sql .= "first_name='" . db_escape($db,$admin['first_name']) . "', ";
+    $sql .= "last_name='" . db_escape($db,$admin['last_name']) . "', ";
+    $sql .= "email='" . db_escape($db,$admin['email']) . "', ";
+    $sql .= "username='" . db_escape($db,$admin['username']) . "', ";
+    $sql .= "hashed_password='" . db_escape($db,$admin['hashed_password']) . "', ";
+    $sql .= "WHERE id='" . db_escape($db, $admin['id']) . "' ";
+    $sql .= "LIMIT 1";
+
+    $result = mysqli_query($db, $sql);
+    if($result) {
+      return true;
+    } else {
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+  }  
+
+  function delete_admin($admin) {
+    global $db;
+
+    //write sql to delete record
+    $sql  = "DELETE FROM admins ";
+    $sql .= "WHERE id='" . db_escape($db,$admin['id']) . "' ";
+    $sql .= "LIMIT 1";
+
+    //send sql to db and check result
+    $result = mysqli_query($db, $sql);
+
+    //return true if record is deleted
+    if($result) { 
+      return true;
+    } else {  //exit program if there is an error in deletion
+      echo mysqli_error($db);
+      db_disconnect($db);
+      exit;
+    }
+   
   }
 ?>

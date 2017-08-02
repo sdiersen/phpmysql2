@@ -1,6 +1,6 @@
 <?php 
 
-	require_once('../../private/initialize.php');
+	require_once('../../../private/initialize.php');
 
 	if(!isset($_GET['id'])) {
 		redirect_to(url_for('/staff/admins/index.php'));
@@ -28,7 +28,7 @@
 	}
 	
 	$page_title = 'Admin - Edit';
-	include('../../private/shared/staff_header.php');
+	include(SHARED_PATH . '/staff_header.php');
 
 ?>
 
@@ -68,4 +68,4 @@
 	</div>
 </div>
 
-<?php include('../../private/shared/staff_footer.php'); ?>
+<?php include(SHARED_PATH . '/staff_footer.php'); ?>
