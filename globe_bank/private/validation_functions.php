@@ -98,6 +98,19 @@
   // * For new records, provide only the menu_name.
   // * For existing records, provide current ID as second arugment
   //   has_unique_page_menu_name('History', 4)
+  function has_lowercase_letters($string) {
+    return preg_match('/[a-z]/', $string);
+  }
+  function has_uppercase_letters($string) {
+    return preg_match('/[A-Z]/', $string);
+  }
+  function has_numbers($string) {
+    return preg_match('/[0-9]/', $string);
+  }
+  function has_special_characters($string) {
+    return preg_match('/[^a-zA-Z0-9\s]/', $string);
+  }
+
   function has_unique_page_menu_name($menu_name, $current_id="0") {
     global $db;
 

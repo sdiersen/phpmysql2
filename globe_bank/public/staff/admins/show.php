@@ -1,9 +1,12 @@
 <?php 
 	require_once('../../../private/initialize.php');
+	
+	require_login();
 
 	$id = $_GET['id'] ?? '1';
 
 	$admin = find_admin_by_id($id);
+	$admin['password'] = $admin['hashed_password'];
 	
 	$page_title = 'Admin - Show';
 	include(SHARED_PATH . '/staff_header.php');
@@ -32,7 +35,7 @@
 		</dl>
 		<dl>
 			<dt>Password: </dt>
-			<dd><?php echo h($admin['hashed_password']); ?> </dd>
+			<dd><?php echo h($admin['password']); ?> </dd>
 		</dl>
 	</div>
 </div>

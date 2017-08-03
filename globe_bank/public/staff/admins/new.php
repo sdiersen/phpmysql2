@@ -2,13 +2,16 @@
 
 	require_once('../../../private/initialize.php');
 
+	require_login();
+	
 	if(is_post_request()) {
 		$admin = [];
 		$admin['first_name'] = $_POST['first_name'] ?? '';
 		$admin['last_name'] = $_POST['last_name'] ?? '';
 		$admin['email'] = $_POST['email'] ?? '';
 		$admin['username'] = $_POST['username'] ?? '';
-		$admin['hashed_password'] = $_POST['hashed_password'] ?? '';
+		$admin['password'] = $_POST['password'] ?? '';
+		$admin['confirm_password'] = $_POST['confirm_password'] ?? '';
 
 		$result = insert_admin($admin);
 		if($result === true) {
@@ -24,7 +27,8 @@
 		$admin['last_name'] = '';
 		$admin['email'] = '';
 		$admin['username'] = '';
-		$admin['hashed_password'] = '';
+		$admin['password'] = '';
+		$admin['confirm_password'] = '';
 	}
 	
 	$page_title = 'Admin - New';
@@ -57,7 +61,11 @@
 			</dl>
 			<dl>
 				<dt>Password: </dt>
-				<dd><input type="password" name="hashed_password" value="<?php echo h($admin['hashed_password']); ?>" /> </dd>
+				<dd><input type="password" name="password" value="<?php echo h($admin['password']); ?>" /> </dd>
+			</dl>
+			<dl>
+				<dt>Confirm Password: </dt>
+				<dd><input type="password" name="confirm_password" value="<?php echo h($admin['confirm_password']); ?>" /></dd>
 			</dl>
 			<div id="operation">
 				<input type="submit" value="Create Admin" />

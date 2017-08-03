@@ -1,15 +1,15 @@
-<?php require_once('../../../private/initialize.php'); ?>
+<?php require_once('../../../private/initialize.php'); 
 
-<?php
-// $id = isset($_GET['id']) ? $_GET['id'] : '1';
-$id = $_GET['id'] ?? '1'; // PHP > 7.0
 
-$page = find_page_by_id($id);
+  require_login();
+  // $id = isset($_GET['id']) ? $_GET['id'] : '1';
+  $id = $_GET['id'] ?? '1'; // PHP > 7.0
 
+  $page = find_page_by_id($id);
+
+  $page_title = 'Show Page';
+  include(SHARED_PATH . '/staff_header.php'); 
 ?>
-
-<?php $page_title = 'Show Page'; ?>
-<?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 

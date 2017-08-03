@@ -1,15 +1,14 @@
-<?php require_once('../../../private/initialize.php'); ?>
+<?php 
+  require_once('../../../private/initialize.php');
 
-<?php
-// $id = isset($_GET['id']) ? $_GET['id'] : '1';
-$id = $_GET['id'] ?? '1'; // PHP > 7.0
+  require_login();
+  // $id = isset($_GET['id']) ? $_GET['id'] : '1';
+  $id = $_GET['id'] ?? '1'; // PHP > 7.0
 
-$subject = find_subject_by_id($id);
-
+  $subject = find_subject_by_id($id);
+  $page_title = 'Show Subject'; 
+  include(SHARED_PATH . '/staff_header.php'); 
 ?>
-
-<?php $page_title = 'Show Subject'; ?>
-<?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 

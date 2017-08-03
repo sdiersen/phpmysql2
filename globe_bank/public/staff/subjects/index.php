@@ -1,13 +1,12 @@
-<?php require_once('../../../private/initialize.php'); ?>
+<?php require_once('../../../private/initialize.php');
 
-<?php
 
+  require_login();
   $subject_set = find_all_subjects();
 
+  $page_title = 'Subjects'; 
+  include(SHARED_PATH . '/staff_header.php'); 
 ?>
-
-<?php $page_title = 'Subjects'; ?>
-<?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
   <div class="subjects listing">

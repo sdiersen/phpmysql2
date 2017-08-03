@@ -2,6 +2,8 @@
 
 	require_once('../../../private/initialize.php');
 
+	require_login();
+	
 	if(!isset($_GET['id'])) {
 		redirect_to(url_for('/staff/admins/index.php'));
 	}
@@ -15,7 +17,8 @@
 		$account['last_name'] = $_POST['last_name'] ?? '';
 		$account['email'] = $_POST['email'] ?? '';
 		$account['username'] = $_POST['username'] ?? '';
-		$account['hashed_password'] = $_POST['hashed_password'] ?? '';
+		$account['password'] = $_POST['password'] ?? '';
+		$account['confirm_password'] = $_POST['confirm_password'] ?? '';
 
 		$result = update_admin($account);
 		if($result === true) {
@@ -26,6 +29,8 @@
 		}
 	} else {
 		$account = find_admin_by_id($id);
+		$account['password'] = $account['hashed_password'];
+		$account['confirm_password'] = '';
 	}
 	
 	$page_title = 'Admin - Edit';
@@ -60,7 +65,11 @@
 			</dl>
 			<dl>
 				<dt>Password: </dt>
-				<dd><input type="password" name="hashed_password" value="<?php echo h($account['hashed_password']); ?>" /></dd>
+				<dd><input type="password" name="password" value="<?php echo h($account['password']); ?>" /></dd>
+			</dl>
+			<dl>
+				<dt>Confirm Password: </dt>
+				<dd><input type="password" name="confirm_password" value="<?php echo h($account['confirm_password']); ?>" /></dd>
 			</dl>
 			<div id="operations">
 				<input type="submit" value="Edit Account" />
