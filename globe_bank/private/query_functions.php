@@ -308,6 +308,27 @@
     return $result; 
   }
 
+    function count_pages_by_subject_id($subject_id, $options=[]) {
+    global $db;
+
+    $visible = $options['visible'] ?? false;
+
+    $sql = "SELECT COUNT(id) FROM pages ";
+    $sql .= "WHERE subject_id='" . db_escape($db, $subject_id) . "' ";
+    if($visible) {
+      $sql .= "AND visible = true ";
+    }
+    $sql .= "ORDER BY position ASC";
+    $result = mysqli_query($db, $sql);
+    confirm_result_set($result);
+
+    $row = mysqli_fetch_row($result);
+    mysqli_free_result($result);
+    $count = $row[0];
+
+    return $count; 
+  }
+
   // Admins
   function find_all_admins() {
     global $db;
@@ -500,5 +521,34 @@
       exit;
     }
    
+  }
+
+  function shift_subject_positions($start_pos, $end_pos, $current_id=0) {
+
+    if($start_pos == 0) {
+      //new item, +1 to items greater than $end_pos
+
+    } elseif($end_pos == 0) {
+      //delete item, -1 from items greater than $start_pos
+
+    } elseif($start_pos < $end_pos) {
+      // move earlier, +1 to items between (including $end_pos)
+
+    } elseif($start_pos > $end_pos) {
+      // move earlier, +1 to items between (including $end_pos)
+
+    }
+    // Exclude the current_id in the SQL WHERE clause
+
+
+    //Example SQL
+    /*
+      UPDATE subjects
+      SET position = position - 1
+      WHERE position > 2
+      AND position <= 6
+      AND id != 8;
+    */
+
   }
 ?>

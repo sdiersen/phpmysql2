@@ -3,6 +3,8 @@
 
   require_login();
 
+  redirect_to(url_for('/staff/index.php'));
+
   $page_set = find_all_pages();
 
   $page_title = 'Pages';

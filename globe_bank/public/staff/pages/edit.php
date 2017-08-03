@@ -31,13 +31,11 @@ if(is_post_request()) {
 } else {
 
   $page = find_page_by_id($id);
+  $subject = find_subject_by_id($page['subject_id']);
 
 }
 
-$page_set = find_all_pages();
-$page_count = mysqli_num_rows($page_set);
-mysqli_free_result($page_set);
-
+$page_count = count_pages_by_subject_id($page['subject_id']);
 ?>
 
 <?php $page_title = 'Edit Page'; ?>
@@ -45,8 +43,7 @@ mysqli_free_result($page_set);
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
-
+  <a class="back-link" href="<?php echo url_for('/staff/subjects/show.php?id=' . h(u($subject['id']))); ?>">&laquo; Back to <?php echo h($subject['menu_name']); ?></a>
   <div class="page edit">
     <h1>Edit Page</h1>
 
