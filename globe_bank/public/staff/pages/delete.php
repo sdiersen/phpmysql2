@@ -13,8 +13,7 @@ $page = find_page_by_id($id);
 $subject = find_subject_by_id($page['subject_id']);
 
 if(is_post_request()) {
-
-  $_SESSION['status_msg'] = 'The page: ' . h($page['menu_name']) . ' was successfully deleted.';
+ $_SESSION['status_msg'] = 'The page: ' . h($page['menu_name']) . ' was successfully deleted.';
   $result = delete_page($id);
   redirect_to(url_for('/staff/subjects/show.php?id=' . h(u($page['subject_id']))));
 

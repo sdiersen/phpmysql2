@@ -20,6 +20,11 @@ if(is_post_request()) {
 
   $result = update_subject($subject);
   if($result === true) {
+    if ($_SESSION['start_pos'] !== $subject['position'])
+    {
+      shift_subject_positions($_SESSION['start_pos'], $subject['position'], $id);
+      unset($_SESSION['start_pos']);
+    }
     $_SESSION['status_msg'] = 'The subject: ' . h($subject['menu_name']) . ' was successfully updated.';
     redirect_to(url_for('/staff/subjects/show.php?id=' . $id));
   } else {
@@ -30,7 +35,7 @@ if(is_post_request()) {
 } else {
 
   $subject = find_subject_by_id($id);
-
+  $_SESSION['start_pos'] = $subject['position'];
 }
 
 $subject_set = find_all_subjects();

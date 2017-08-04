@@ -32,7 +32,6 @@ if(is_post_request()) {
 
   $page = find_page_by_id($id);
   $subject = find_subject_by_id($page['subject_id']);
-
 }
 
 $page_count = count_pages_by_subject_id($page['subject_id']);
