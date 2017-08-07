@@ -10,15 +10,12 @@ $id = $_GET['id'];
 
 if(is_post_request()) {
 
-  shift_subject_positions($_SESSION['start_pos'], 0 , $id);
-  unset($_SESSION['start_pos']);
   $_SESSION['status_msg'] = 'The subject: ' . h($subject['menu_name']) . ' was successfully deleted.';
   $result = delete_subject($id);
   redirect_to(url_for('/staff/subjects/index.php'));
 
 } else {
   $subject = find_subject_by_id($id);
-  $_SESSION['start_pos'] = $subject['position'];
 }
 
 ?>

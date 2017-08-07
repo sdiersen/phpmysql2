@@ -74,8 +74,8 @@
       return $errors;
     }
 
-    shift_subject_positions(0, $subject['position'], $subject['id']);
-
+    shift_subject_positions(0, $subject['position']);
+    
     $sql = "INSERT INTO subjects ";
     $sql .= "(menu_name, position, visible) ";
     $sql .= "VALUES (";
@@ -133,6 +133,7 @@
     $start_subject = find_subject_by_id($id);
     $start_pos = $start_subject['position'];
     shift_subject_positions($start_pos, 0, $id);
+    
     $sql = "DELETE FROM subjects ";
     $sql .= "WHERE id='" . db_escape($db, $id) . "' ";
     $sql .= "LIMIT 1";
@@ -231,7 +232,7 @@
       return $errors;
     }
 
-    shift_page_positions(0, $page['position'], $page['subject_id'], $page['id']);
+    shift_page_positions(0, $page['position'], $page['subject_id']);
 
     $sql = "INSERT INTO pages ";
     $sql .= "(subject_id, menu_name, position, visible, content) ";
@@ -262,8 +263,8 @@
       return $errors;
     }
 
-    $start_page = find_page_by_id($page['id']);
-    $start_pos = $page['position'];
+    $old_page = find_page_by_id($page['id']);
+    $start_pos = $old_page['position'];
 
     shift_page_positions($start_pos, $page['position'], $page['subject_id'], $page['id']);
 
